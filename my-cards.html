@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your saved travel cards">
+    <title>My Travel Cards | Intergalactic Space Travel Agency</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/my-cards.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <a href="index.html" class="back-btn">← Back to Home</a>
+            <h1>My Travel Cards</h1>
+            <p class="subtitle">Manage your interstellar journeys</p>
+        </header>
+
+        <main class="cards-container">
+            <!-- Action Bar -->
+            <div class="action-bar">
+                <a href="travel-card.html" class="btn btn-primary">
+                    <span>+ Create New Card</span>
+                    <div class="btn-shine"></div>
+                </a>
+                <button id="deleteAllBtn" class="btn btn-danger" style="display: none;">
+                    <span>Delete All Cards</span>
+                </button>
+            </div>
+
+            <!-- Cards Display Area -->
+            <div id="cardsDisplay" class="cards-grid">
+                <!-- Cards will be dynamically inserted here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state">
+                <div class="empty-icon">🌌</div>
+                <h2>No Travel Cards Yet</h2>
+                <p>Start planning your cosmic adventure by creating your first travel card</p>
+                <a href="travel-card.html" class="btn btn-primary">
+                    <span>Create Your First Card</span>
+                    <div class="btn-shine"></div>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Deletion</h2>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this travel card? This action cannot be undone.</p>
+                <p class="modal-card-info" id="modalCardInfo"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmDeleteBtn" class="btn btn-danger">
+                    <span>Yes, Delete</span>
+                </button>
+                <button id="cancelDeleteBtn" class="btn btn-secondary">
+                    <span>Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete All Confirmation Modal -->
+    <div id="deleteAllModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Delete All Cards?</h2>
+                <button class="modal-close" id="modalCloseAll">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete ALL travel cards? This action cannot be undone.</p>
+                <p class="warning-text">⚠️ This will permanently remove all your saved journeys.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmDeleteAllBtn" class="btn btn-danger">
+                    <span>Yes, Delete All</span>
+                </button>
+                <button id="cancelDeleteAllBtn" class="btn btn-secondary">
+                    <span>Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/my-cards.js"></script>
+</body>
+</html>
