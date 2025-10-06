@@ -1,0 +1,327 @@
+/* ========================================
+   REVIEW CARD PAGE STYLES
+   Travel Card Display & Review Interface
+   ======================================== */
+
+/* ========== REVIEW CONTAINER ========== */
+.review-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+/* ========== TRAVEL CARD DISPLAY ========== */
+.travel-card {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(157, 78, 221, 0.1));
+    border: 2px solid var(--border-glow);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    animation: cardSlideIn 0.6s ease;
+}
+
+.travel-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+    animation: cardGlow 8s ease-in-out infinite;
+}
+
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardGlow {
+    0%, 100% { transform: rotate(0deg); opacity: 0.3; }
+    50% { transform: rotate(180deg); opacity: 0.6; }
+}
+
+/* ========== CARD HEADER ========== */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.card-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.logo-icon {
+    font-size: 3rem;
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.logo-text {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.card-title h2 {
+    font-size: 1.8rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.card-number {
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+/* ========== CARD SECTIONS ========== */
+.card-section {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--accent-blue);
+    position: relative;
+    z-index: 1;
+    transition: all var(--transition-fast);
+}
+
+.card-section:hover {
+    background: rgba(0, 212, 255, 0.05);
+    transform: translateX(5px);
+}
+
+.section-header {
+    font-size: 1.3rem;
+    color: var(--accent-blue);
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.section-header::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-blue), transparent);
+}
+
+/* ========== INFO GRID ========== */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.info-value {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.info-value.highlight {
+    color: var(--accent-blue);
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+/* ========== INFO LIST ========== */
+.info-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.info-list .badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 212, 255, 0.2);
+    border: 1px solid var(--accent-blue);
+    border-radius: 20px;
+    color: var(--accent-blue);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.no-data {
+    color: var(--text-secondary);
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* ========== NOTES CONTENT ========== */
+.notes-content {
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--border-radius);
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+/* ========== BOARDING PASS ========== */
+.boarding-pass {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+    border-radius: var(--border-radius);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.barcode {
+    height: 60px;
+    background: repeating-linear-gradient(
+        90deg,
+        #000 0px,
+        #000 3px,
+        #fff 3px,
+        #fff 6px
+    );
+    margin-bottom: var(--spacing-sm);
+    border-radius: 4px;
+}
+
+.boarding-text {
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: var(--primary-dark);
+    margin: 0;
+}
+
+/* ========== ACTION BUTTONS ========== */
+.action-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: var(--spacing-xl);
+}
+
+.action-buttons .btn {
+    min-width: 200px;
+}
+
+/* ========== ANIMATIONS ========== */
+.card-section {
+    animation: sectionFadeIn 0.5s ease backwards;
+}
+
+.card-section:nth-child(1) { animation-delay: 0.1s; }
+.card-section:nth-child(2) { animation-delay: 0.2s; }
+.card-section:nth-child(3) { animation-delay: 0.3s; }
+.card-section:nth-child(4) { animation-delay: 0.4s; }
+.card-section:nth-child(5) { animation-delay: 0.5s; }
+.card-section:nth-child(6) { animation-delay: 0.6s; }
+.card-section:nth-child(7) { animation-delay: 0.7s; }
+.card-section:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes sectionFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
+    .travel-card {
+        padding: var(--spacing-lg);
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons .btn {
+        width: 100%;
+    }
+
+    .logo-icon {
+        font-size: 2rem;
+    }
+
+    .logo-text {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .review-container {
+        padding: var(--spacing-sm);
+    }
+
+    .travel-card {
+        padding: var(--spacing-md);
+    }
+
+    .card-section {
+        padding: var(--spacing-md);
+    }
+
+    .section-header {
+        font-size: 1.1rem;
+    }
+
+    .info-value {
+        font-size: 1rem;
+    }
+}
