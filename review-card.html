@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Review your intergalactic travel card">
+    <title>Review Travel Card | Intergalactic Space Travel Agency</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/review-card.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <a href="travel-card.html" class="back-btn">← Edit Travel Card</a>
+            <h1>Review Your Journey</h1>
+            <p class="subtitle">Verify your travel details before departure</p>
+        </header>
+
+        <main class="review-container">
+            <div id="travelCardDisplay" class="travel-card">
+                <!-- Travel Card Header -->
+                <div class="card-header">
+                    <div class="card-logo">
+                        <span class="logo-icon">🚀</span>
+                        <span class="logo-text">ISTA</span>
+                    </div>
+                    <div class="card-title">
+                        <h2>Intergalactic Travel Card</h2>
+                        <p class="card-number" id="cardNumber">CARD-XXXX-XXXX</p>
+                    </div>
+                </div>
+
+                <!-- Traveler Info Section -->
+                <section class="card-section">
+                    <h3 class="section-header">Traveler Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Name:</span>
+                            <span class="info-value" id="displayName">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Traveler ID:</span>
+                            <span class="info-value" id="displayTravelerID">-</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Flight Details Section -->
+                <section class="card-section">
+                    <h3 class="section-header">Flight Details</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Spacecraft:</span>
+                            <span class="info-value" id="displaySpacecraft">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Destination:</span>
+                            <span class="info-value highlight" id="displayDestination">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Departure:</span>
+                            <span class="info-value" id="displayDeparture">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Flight Duration:</span>
+                            <span class="info-value" id="displayDuration">5 minutes</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seating Section -->
+                <section class="card-section">
+                    <h3 class="section-header">Seating Arrangement</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Class:</span>
+                            <span class="info-value" id="displaySeatClass">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Preference:</span>
+                            <span class="info-value" id="displaySeatPreference">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Extra Legroom:</span>
+                            <span class="info-value" id="displayLegroom">-</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Dining Section -->
+                <section class="card-section">
+                    <h3 class="section-header">In-Flight Dining</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Meal:</span>
+                            <span class="info-value" id="displayMeal">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Beverage:</span>
+                            <span class="info-value" id="displayBeverage">-</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Baggage Section -->
+                <section class="card-section">
+                    <h3 class="section-header">Baggage</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Carry-On:</span>
+                            <span class="info-value" id="displayCarryOn">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Checked Bags:</span>
+                            <span class="info-value" id="displayChecked">-</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Accommodations Section -->
+                <section class="card-section" id="accommodationsSection">
+                    <h3 class="section-header">Special Accommodations</h3>
+                    <div class="info-list" id="displayAccommodations">
+                        <p class="no-data">None requested</p>
+                    </div>
+                </section>
+
+                <!-- Entertainment Section -->
+                <section class="card-section">
+                    <h3 class="section-header">Entertainment Package</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Package:</span>
+                            <span class="info-value" id="displayEntertainment">-</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Notes Section -->
+                <section class="card-section" id="notesSection">
+                    <h3 class="section-header">Special Requests</h3>
+                    <div class="notes-content" id="displayNotes">
+                        <p class="no-data">No special requests</p>
+                    </div>
+                </section>
+
+                <!-- Boarding Pass -->
+                <div class="boarding-pass">
+                    <div class="barcode"></div>
+                    <p class="boarding-text">CLEARED FOR DEPARTURE</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="saveCardBtn" class="btn btn-primary">
+                    <span>Save Travel Card</span>
+                    <div class="btn-shine"></div>
+                </button>
+                <button id="beginFlightBtn" class="btn btn-success">
+                    <span>🚀 Begin Flight</span>
+                    <div class="btn-shine"></div>
+                </button>
+                <button id="editCardBtn" class="btn btn-secondary">
+                    <span>Edit Details</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/review-card.js"></script>
+</body>
+</html>
