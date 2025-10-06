@@ -1,0 +1,393 @@
+/* ========================================
+   MY CARDS PAGE STYLES
+   Travel Card Management Interface
+   ======================================== */
+
+/* ========== CARDS CONTAINER ========== */
+.cards-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+/* ========== ACTION BAR ========== */
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glow);
+    border-radius: var(--border-radius-lg);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+/* ========== CARDS GRID ========== */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* ========== INDIVIDUAL CARD ========== */
+.saved-card {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(157, 78, 221, 0.08));
+    border: 2px solid var(--border-glow);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+    animation: cardAppear 0.5s ease backwards;
+}
+
+.saved-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.saved-card:hover::before {
+    left: 100%;
+}
+
+.saved-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 15px 50px rgba(0, 212, 255, 0.4);
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ========== CARD HEADER ========== */
+.card-mini-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.card-id {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+}
+
+/* ========== CARD INFO ========== */
+.card-info {
+    margin-bottom: var(--spacing-md);
+}
+
+.card-traveler-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.card-destination {
+    font-size: 1.1rem;
+    color: var(--accent-blue);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+}
+
+.card-spacecraft {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.card-date {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: var(--spacing-xs);
+}
+
+/* ========== CARD ACTIONS ========== */
+.card-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.card-btn {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-btn-view {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    color: var(--text-primary);
+}
+
+.card-btn-view:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.5);
+}
+
+.card-btn-flight {
+    background: linear-gradient(135deg, #00ff88, #00d4ff);
+    color: var(--primary-dark);
+}
+
+.card-btn-flight:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 255, 136, 0.5);
+}
+
+.card-btn-delete {
+    background: rgba(255, 0, 110, 0.2);
+    color: var(--accent-pink);
+    border: 1px solid var(--accent-pink);
+    flex: 0.5;
+}
+
+.card-btn-delete:hover {
+    background: var(--accent-pink);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+/* ========== EMPTY STATE ========== */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+}
+
+.empty-icon {
+    font-size: 6rem;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.5;
+}
+
+.empty-state h2 {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--text-secondary);
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* ========== MODAL STYLES ========== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: var(--secondary-dark);
+    border: 2px solid var(--accent-blue);
+    border-radius: var(--border-radius-lg);
+    max-width: 500px;
+    width: 90%;
+    animation: slideDown 0.3s ease;
+    overflow: hidden;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-lg);
+    background: rgba(0, 212, 255, 0.1);
+    border-bottom: 1px solid var(--border-glow);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--accent-blue);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 2rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+}
+
+.modal-close:hover {
+    background: rgba(255, 0, 110, 0.2);
+    color: var(--accent-pink);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: var(--spacing-xl);
+}
+
+.modal-body p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+}
+
+.modal-card-info {
+    padding: var(--spacing-md);
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--accent-blue);
+    font-weight: 600;
+    color: var(--accent-blue);
+}
+
+.warning-text {
+    color: var(--accent-gold);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.modal-footer {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid var(--border-glow);
+}
+
+.modal-footer .btn {
+    flex: 1;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-bar .btn {
+        width: 100%;
+    }
+
+    .card-actions {
+        flex-wrap: wrap;
+    }
+
+    .card-btn {
+        flex: 1 1 100%;
+    }
+
+    .card-btn-delete {
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards-container {
+        padding: var(--spacing-sm);
+    }
+
+    .saved-card {
+        padding: var(--spacing-md);
+    }
+
+    .empty-icon {
+        font-size: 4rem;
+    }
+
+    .empty-state h2 {
+        font-size: 1.5rem;
+    }
+
+    .modal-content {
+        width: 95%;
+    }
+}
+
+/* ========== STAGGERED ANIMATION ========== */
+.saved-card:nth-child(1) { animation-delay: 0.1s; }
+.saved-card:nth-child(2) { animation-delay: 0.2s; }
+.saved-card:nth-child(3) { animation-delay: 0.3s; }
+.saved-card:nth-child(4) { animation-delay: 0.4s; }
+.saved-card:nth-child(5) { animation-delay: 0.5s; }
+.saved-card:nth-child(6) { animation-delay: 0.6s; }
+.saved-card:nth-child(7) { animation-delay: 0.7s; }
+.saved-card:nth-child(8) { animation-delay: 0.8s; }
+.saved-card:nth-child(9) { animation-delay: 0.9s; }
