@@ -1,0 +1,473 @@
+/* ========================================
+   FLIGHT SEQUENCE PAGE STYLES
+   Immersive 3D Flight Experience Interface
+   ======================================== */
+
+/* ========== FLIGHT EXPERIENCE CONTAINER ========== */
+#flightExperience {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #000000;
+    overflow: hidden;
+}
+
+/* ========== THREE.JS CANVAS CONTAINER ========== */
+#canvasContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#canvasContainer canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* ========== HUD OVERLAY ========== */
+.hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--spacing-lg);
+}
+
+.hud * {
+    pointer-events: auto;
+}
+
+/* ========== HUD TOP SECTION ========== */
+.hud-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.hud-info {
+    display: flex;
+    gap: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.hud-item {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--accent-blue);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm) var(--spacing-md);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.hud-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.2rem;
+}
+
+.hud-value {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    font-family: 'Courier New', monospace;
+}
+
+/* ========== HUD CENTER - PROGRESS ========== */
+.hud-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.progress-container {
+    width: 100%;
+    max-width: 600px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--accent-blue);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: var(--spacing-md);
+    border: 1px solid var(--accent-blue);
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
+    background-size: 200% 100%;
+    animation: progressShine 2s linear infinite;
+    transition: width 0.3s ease;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: progressGlide 1.5s ease-in-out infinite;
+}
+
+@keyframes progressShine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+@keyframes progressGlide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#progressPercent {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    font-family: 'Courier New', monospace;
+}
+
+#timeRemaining {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+}
+
+/* ========== HUD BOTTOM SECTION ========== */
+.hud-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.hud-status {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--accent-blue);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md) var(--spacing-lg);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.status-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* ========== HUD CONTROLS ========== */
+.hud-controls {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--accent-blue);
+    color: var(--accent-blue);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all var(--transition-fast);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.control-btn:hover {
+    background: var(--accent-blue);
+    color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 25px rgba(0, 212, 255, 0.6);
+}
+
+.control-btn:active {
+    transform: translateY(-1px);
+}
+
+#audioIcon {
+    font-size: 1.2rem;
+}
+
+/* ========== ARRIVAL SCREEN ========== */
+.arrival-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.2), rgba(0, 0, 0, 0.95));
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: arrivalFadeIn 1s ease;
+}
+
+@keyframes arrivalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.arrival-content {
+    text-align: center;
+    max-width: 800px;
+    padding: var(--spacing-xl);
+}
+
+.arrival-title {
+    font-size: 4rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--spacing-md);
+    animation: arrivalTitleGlow 2s ease-in-out infinite;
+}
+
+@keyframes arrivalTitleGlow {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.5)); }
+    50% { filter: drop-shadow(0 0 40px rgba(157, 78, 221, 0.8)); }
+}
+
+.arrival-subtitle {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xl);
+}
+
+.arrival-subtitle span {
+    color: var(--accent-blue);
+    font-weight: 700;
+}
+
+/* ========== ARRIVAL STATS ========== */
+.arrival-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.stat-item {
+    background: rgba(0, 212, 255, 0.1);
+    border: 2px solid var(--accent-blue);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    backdrop-filter: blur(10px);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    font-family: 'Courier New', monospace;
+}
+
+/* ========== ARRIVAL ACTIONS ========== */
+.arrival-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.arrival-actions .btn {
+    min-width: 200px;
+}
+
+/* ========== LOADING SCREEN ========== */
+.loading-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    z-index: 30;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--spacing-xl);
+    border: 6px solid rgba(0, 212, 255, 0.2);
+    border-top: 6px solid var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-content h2 {
+    font-size: 2rem;
+    color: var(--accent-blue);
+    margin-bottom: var(--spacing-md);
+}
+
+.loading-content p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
+    .hud {
+        padding: var(--spacing-md);
+    }
+
+    .hud-info {
+        gap: var(--spacing-sm);
+    }
+
+    .hud-item {
+        padding: 0.4rem 0.8rem;
+    }
+
+    .hud-value {
+        font-size: 1rem;
+    }
+
+    .progress-container {
+        padding: var(--spacing-md);
+    }
+
+    #progressPercent {
+        font-size: 1.2rem;
+    }
+
+    #timeRemaining {
+        font-size: 1rem;
+    }
+
+    .hud-bottom {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hud-controls {
+        justify-content: stretch;
+    }
+
+    .control-btn {
+        flex: 1;
+    }
+
+    .arrival-title {
+        font-size: 2.5rem;
+    }
+
+    .arrival-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .stat-value {
+        font-size: 1.4rem;
+    }
+
+    .arrival-actions {
+        flex-direction: column;
+    }
+
+    .arrival-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .arrival-title {
+        font-size: 2rem;
+    }
+
+    .arrival-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========== WARP EFFECT OVERLAY ========== */
+.warp-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 20%, rgba(0, 212, 255, 0.3) 80%);
+    animation: warpPulse 0.5s ease-in-out;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes warpPulse {
+    0%, 100% { opacity: 0; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
