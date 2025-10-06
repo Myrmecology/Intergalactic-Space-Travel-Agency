@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create your intergalactic travel card">
+    <title>Book Your Journey | Intergalactic Space Travel Agency</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/travel-card.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <a href="index.html" class="back-btn">← Back to Home</a>
+            <h1>Create Your Travel Card</h1>
+            <p class="subtitle">Plan your perfect interstellar journey</p>
+        </header>
+
+        <main class="form-container">
+            <form id="travelCardForm" class="travel-form">
+                <!-- Personal Information -->
+                <section class="form-section">
+                    <h2 class="section-title">Traveler Information</h2>
+                    <div class="form-group">
+                        <label for="travelerName">Full Name *</label>
+                        <input type="text" id="travelerName" name="travelerName" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="travelerID">Traveler ID (Optional)</label>
+                        <input type="text" id="travelerID" name="travelerID" placeholder="e.g., GALAXY-2025-001">
+                    </div>
+                </section>
+
+                <!-- Spacecraft Selection -->
+                <section class="form-section">
+                    <h2 class="section-title">Spacecraft Selection</h2>
+                    <div class="form-group">
+                        <label for="spacecraft">Choose Your Vessel *</label>
+                        <select id="spacecraft" name="spacecraft" required>
+                            <option value="">Select a spacecraft...</option>
+                            <option value="StarCruiser X1">StarCruiser X1 - Luxury Class</option>
+                            <option value="Nebula Voyager">Nebula Voyager - Business Class</option>
+                            <option value="Quantum Runner">Quantum Runner - Speed Class</option>
+                            <option value="Celestial Explorer">Celestial Explorer - Explorer Class</option>
+                            <option value="Warp Phoenix">Warp Phoenix - Premium Class</option>
+                            <option value="Cosmic Drifter">Cosmic Drifter - Economy Class</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Destination -->
+                <section class="form-section">
+                    <h2 class="section-title">Destination</h2>
+                    <div class="form-group">
+                        <label for="destinationType">Destination Type *</label>
+                        <select id="destinationType" name="destinationType" required>
+                            <option value="">Select destination type...</option>
+                            <option value="solar">Solar System</option>
+                            <option value="exoplanet">Exoplanets</option>
+                            <option value="galaxy">Galaxies</option>
+                            <option value="fictional">Fictional Worlds</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Select Destination *</label>
+                        <select id="destination" name="destination" required disabled>
+                            <option value="">First select a destination type...</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Flight Preferences -->
+                <section class="form-section">
+                    <h2 class="section-title">Flight Preferences</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departureDate">Departure Date *</label>
+                            <input type="date" id="departureDate" name="departureDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="departureTime">Departure Time *</label>
+                            <input type="time" id="departureTime" name="departureTime" required>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seat Selection -->
+                <section class="form-section">
+                    <h2 class="section-title">Seating</h2>
+                    <div class="form-group">
+                        <label for="seatClass">Seat Class *</label>
+                        <select id="seatClass" name="seatClass" required>
+                            <option value="">Select seat class...</option>
+                            <option value="First Class">First Class - Observatory Pods</option>
+                            <option value="Business Class">Business Class - Comfort Seats</option>
+                            <option value="Economy Plus">Economy Plus - Extra Space</option>
+                            <option value="Economy">Economy - Standard</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="seatPreference">Seat Preference</label>
+                        <select id="seatPreference" name="seatPreference">
+                            <option value="Window">Window - View of Space</option>
+                            <option value="Aisle">Aisle - Easy Access</option>
+                            <option value="Middle">Middle</option>
+                        </select>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="extraLegroom" name="extraLegroom">
+                            <span>Extra Legroom (+$299)</span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Meals -->
+                <section class="form-section">
+                    <h2 class="section-title">In-Flight Dining</h2>
+                    <div class="form-group">
+                        <label for="mealPreference">Meal Preference *</label>
+                        <select id="mealPreference" name="mealPreference" required>
+                            <option value="">Select meal preference...</option>
+                            <option value="Galactic Gourmet">Galactic Gourmet - Premium 5-Course</option>
+                            <option value="Cosmic Cuisine">Cosmic Cuisine - Standard 3-Course</option>
+                            <option value="Asteroid Bites">Asteroid Bites - Snacks & Light Meals</option>
+                            <option value="Vegetarian Nebula">Vegetarian Nebula</option>
+                            <option value="Vegan Supernova">Vegan Supernova</option>
+                            <option value="Gluten-Free Galaxy">Gluten-Free Galaxy</option>
+                            <option value="No Meal">No Meal Preference</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="beveragePreference">Beverage Preference</label>
+                        <select id="beveragePreference" name="beveragePreference">
+                            <option value="Space Water">Space Water - Purified H2O</option>
+                            <option value="Cosmic Coffee">Cosmic Coffee</option>
+                            <option value="Stellar Tea">Stellar Tea</option>
+                            <option value="Nebula Juice">Nebula Juice</option>
+                            <option value="Quantum Cola">Quantum Cola</option>
+                            <option value="Zero-G Energy Drink">Zero-G Energy Drink</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Baggage -->
+                <section class="form-section">
+                    <h2 class="section-title">Baggage Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="carryOn">Carry-On Bags</label>
+                            <input type="number" id="carryOn" name="carryOn" min="0" max="2" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="checkedBags">Checked Bags</label>
+                            <input type="number" id="checkedBags" name="checkedBags" min="0" max="5" value="0">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Special Accommodations -->
+                <section class="form-section">
+                    <h2 class="section-title">Special Accommodations</h2>
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="wheelchair" name="wheelchair">
+                            <span>Wheelchair Assistance</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" id="oxygenSupport" name="oxygenSupport">
+                            <span>Oxygen Support</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" id="gravityAssist" name="gravityAssist">
+                            <span>Gravity Adjustment Support</span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Entertainment -->
+                <section class="form-section">
+                    <h2 class="section-title">Entertainment Package</h2>
+                    <div class="form-group">
+                        <label for="entertainment">Select Package</label>
+                        <select id="entertainment" name="entertainment">
+                            <option value="Ultimate Cosmic">Ultimate Cosmic - VR, Movies, Games, Music</option>
+                            <option value="Stellar Standard">Stellar Standard - Movies & Music</option>
+                            <option value="Basic Constellation">Basic Constellation - Music Only</option>
+                            <option value="None">None - Peace & Quiet</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Additional Notes -->
+                <section class="form-section">
+                    <h2 class="section-title">Additional Requests</h2>
+                    <div class="form-group">
+                        <label for="notes">Special Requests or Notes</label>
+                        <textarea id="notes" name="notes" rows="4" placeholder="Any special requests or information we should know..."></textarea>
+                    </div>
+                </section>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <span>Review Travel Card</span>
+                        <div class="btn-shine"></div>
+                    </button>
+                    <button type="reset" class="btn btn-secondary">
+                        <span>Reset Form</span>
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script src="js/travel-card.js"></script>
+</body>
+</html>
