@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Experience your intergalactic flight">
+    <title>Flight Sequence | Intergalactic Space Travel Agency</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/flight.css">
+</head>
+<body>
+    <div id="flightExperience">
+        <!-- Flight HUD Overlay -->
+        <div id="flightHUD" class="hud">
+            <div class="hud-top">
+                <div class="hud-info">
+                    <div class="hud-item">
+                        <span class="hud-label">DESTINATION</span>
+                        <span class="hud-value" id="hudDestination">-</span>
+                    </div>
+                    <div class="hud-item">
+                        <span class="hud-label">SPACECRAFT</span>
+                        <span class="hud-value" id="hudSpacecraft">-</span>
+                    </div>
+                    <div class="hud-item">
+                        <span class="hud-label">SPEED</span>
+                        <span class="hud-value" id="hudSpeed">0.0c</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hud-center">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progressPercent">0%</span>
+                        <span id="timeRemaining">5:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hud-bottom">
+                <div class="hud-status">
+                    <span id="flightStatus" class="status-text">PREPARING FOR DEPARTURE</span>
+                </div>
+                <div class="hud-controls">
+                    <button id="speedUpBtn" class="control-btn">
+                        <span>⚡ SKIP TO ARRIVAL</span>
+                    </button>
+                    <button id="toggleAudioBtn" class="control-btn">
+                        <span id="audioIcon">🔊</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Three.js Canvas Container -->
+        <div id="canvasContainer"></div>
+
+        <!-- Arrival Screen -->
+        <div id="arrivalScreen" class="arrival-screen" style="display: none;">
+            <div class="arrival-content">
+                <h1 class="arrival-title">ARRIVAL COMPLETE</h1>
+                <p class="arrival-subtitle">Welcome to <span id="arrivalDestination">your destination</span></p>
+                <div class="arrival-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Distance Traveled</span>
+                        <span class="stat-value" id="distanceTraveled">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Flight Time</span>
+                        <span class="stat-value" id="flightTime">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Max Speed</span>
+                        <span class="stat-value" id="maxSpeed">-</span>
+                    </div>
+                </div>
+                <div class="arrival-actions">
+                    <a href="my-cards.html" class="btn btn-primary">
+                        <span>View My Cards</span>
+                        <div class="btn-shine"></div>
+                    </a>
+                    <a href="travel-card.html" class="btn btn-secondary">
+                        <span>Book Another Journey</span>
+                    </a>
+                    <a href="index.html" class="btn btn-secondary">
+                        <span>Return Home</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div id="loadingScreen" class="loading-screen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h2>Initializing Flight Sequence</h2>
+                <p>Preparing visualization systems...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/flight.js"></script>
+</body>
+</html>
