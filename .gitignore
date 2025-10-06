@@ -1,0 +1,130 @@
+# YubiKey and Security Keys
+*.yubikey
+*.yubico
+*yubikey*
+*yubico*
+.yubico/
+yubikey-config/
+piv-tool/
+ykman/
+*.p12
+*.pem
+*.key
+*.crt
+*.pfx
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+secrets/
+secrets.*
+config/secrets/
+*.secret
+
+# API Keys & Credentials
+*apikey*
+*api-key*
+*api_key*
+*.credentials
+credentials/
+auth/
+*.token
+tokens/
+
+# SSH Keys
+*.ssh
+.ssh/
+id_rsa
+id_rsa.pub
+id_dsa
+id_dsa.pub
+id_ecdsa
+id_ecdsa.pub
+id_ed25519
+id_ed25519.pub
+
+# GPG Keys
+*.gpg
+*.asc
+.gnupg/
+secring.*
+
+# Certificates
+*.cer
+*.der
+*.p7b
+*.p7c
+*.spc
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Node Modules (if you add npm later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Temporary Files
+*.tmp
+*.temp
+*.cache
+.cache/
+tmp/
+temp/
+
+# Build Output
+dist/
+build/
+out/
+
+# Backup Files
+*.bak
+*.backup
+*~
+
+# Personal Notes
+notes.txt
+todo.txt
+private/
+personal/
+
+# Database Files
+*.sql
+*.sqlite
+*.db
+
+# Security Audits
+security-audit/
+penetration-test/
