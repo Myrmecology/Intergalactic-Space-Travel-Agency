@@ -14,6 +14,7 @@ let audioContext, audioEnabled = true;
 let oscillators = [];
 let cardData;
 let currentSpeed = 0;
+let isFlightComplete = false;
 
 // ========== INITIALIZE FLIGHT SEQUENCE ==========
 window.addEventListener('DOMContentLoaded', function() {
@@ -239,14 +240,23 @@ function createStrobeLight() {
 
 // ========== INITIALIZE AUDIO ==========
 function initAudio() {
-    try {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        createEngineSound();
-        createAmbientDrone();
-    } catch (error) {
-        console.error('Audio initialization failed:', error);
-        audioEnabled = false;
-    }
+    // Audio context requires user interaction in modern browsers
+    document.addEventListener('click', function initAudioContext() {
+        if (!audioContext) {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                createEngineSound();
+                createAmbientDrone();
+                document.removeEventListener('click', initAudioContext);
+            } catch (error) {
+                console.error('Audio initialization failed:', error);
+                audioEnabled = false;
+            }
+        }
+    }, { once: true });
 }
 
 // ========== CREATE ENGINE SOUND ==========
@@ -294,6 +304,8 @@ function startFlight() {
 
 // ========== ANIMATION LOOP ==========
 function animate() {
+    if (isFlightComplete) return;
+    
     animationId = requestAnimationFrame(animate);
     
     const elapsed = (Date.now() - startTime) / 1000;
@@ -323,7 +335,7 @@ function animate() {
     if (particles) {
         const positions = particles.geometry.attributes.position.array;
         for (let i = 0; i < positions.length; i += 3) {
-            positions[i + 2] += 2 + flightProgress * 5; // Speed increases with progress
+            positions[i + 2] += 2 + flightProgress * 5;
             if (positions[i + 2] > 50) {
                 positions[i + 2] = -200;
             }
@@ -390,6 +402,8 @@ function updateFlightStatusByProgress(progress) {
 
 // ========== SPEED UP BUTTON ==========
 document.getElementById('speedUpBtn').addEventListener('click', function() {
+    if (isFlightComplete) return;
+    
     flightProgress = 1;
     updateProgressBar(1);
     completeFlightSequence();
@@ -402,20 +416,42 @@ document.getElementById('toggleAudioBtn').addEventListener('click', function() {
     
     if (audioEnabled) {
         icon.textContent = '🔊';
-        oscillators.forEach(osc => osc.gain.gain.setValueAtTime(0.1, audioContext.currentTime));
+        if (audioContext) {
+            audioContext.resume();
+            oscillators.forEach(osc => {
+                if (osc.gain) {
+                    osc.gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+                }
+            });
+        }
     } else {
         icon.textContent = '🔇';
-        oscillators.forEach(osc => osc.gain.gain.setValueAtTime(0, audioContext.currentTime));
+        if (audioContext) {
+            oscillators.forEach(osc => {
+                if (osc.gain) {
+                    osc.gain.gain.setValueAtTime(0, audioContext.currentTime);
+                }
+            });
+        }
     }
 });
 
 // ========== COMPLETE FLIGHT ==========
 function completeFlightSequence() {
+    if (isFlightComplete) return;
+    isFlightComplete = true;
+    
     cancelAnimationFrame(animationId);
     
     // Stop audio
     oscillators.forEach(osc => {
-        osc.osc.stop();
+        try {
+            if (osc.osc && osc.osc.stop) {
+                osc.osc.stop();
+            }
+        } catch (e) {
+            console.log('Audio already stopped');
+        }
     });
     
     // Calculate stats
@@ -462,6 +498,10 @@ function hideLoadingScreen() {
 // ========== CLEANUP ON PAGE UNLOAD ==========
 window.addEventListener('beforeunload', function() {
     if (animationId) cancelAnimationFrame(animationId);
-    oscillators.forEach(osc => osc.osc.stop());
+    oscillators.forEach(osc => {
+        try {
+            if (osc.osc) osc.osc.stop();
+        } catch (e) {}
+    });
     if (renderer) renderer.dispose();
 });

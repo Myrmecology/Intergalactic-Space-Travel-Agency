@@ -43,22 +43,22 @@ function displayCardData(cardData) {
     
     // Seating
     document.getElementById('displaySeatClass').textContent = cardData.seatClass || '-';
-    document.getElementById('displaySeatPreference').textContent = cardData.seatPreference || '-';
+    document.getElementById('displaySeatPreference').textContent = cardData.seatPreference || 'Window - View of Space';
     document.getElementById('displayLegroom').textContent = cardData.extraLegroom ? 'Yes (+$299)' : 'No';
     
     // Dining
     document.getElementById('displayMeal').textContent = cardData.mealPreference || '-';
-    document.getElementById('displayBeverage').textContent = cardData.beveragePreference || '-';
+    document.getElementById('displayBeverage').textContent = cardData.beveragePreference || 'Space Water - Purified H2O';
     
     // Baggage
-    document.getElementById('displayCarryOn').textContent = `${cardData.carryOn || 0} bag(s)`;
+    document.getElementById('displayCarryOn').textContent = `${cardData.carryOn || 1} bag(s)`;
     document.getElementById('displayChecked').textContent = `${cardData.checkedBags || 0} bag(s)`;
     
     // Special Accommodations
     displayAccommodations(cardData);
     
     // Entertainment
-    document.getElementById('displayEntertainment').textContent = cardData.entertainment || '-';
+    document.getElementById('displayEntertainment').textContent = cardData.entertainment || 'Ultimate Cosmic - VR, Movies, Games, Music';
     
     // Notes
     displayNotes(cardData.notes);
@@ -103,6 +103,15 @@ if (saveCardBtn) {
             return;
         }
         
+        // Check if already saved
+        const existingCard = getCardByID(cardData.cardID);
+        
+        if (existingCard) {
+            showNotification('This card is already saved!', 'info');
+            saveCardBtn.innerHTML = '<span>✓ Already Saved</span>';
+            return;
+        }
+        
         // Save to localStorage
         if (saveCard(cardData)) {
             showNotification('Travel card saved successfully!', 'success');
@@ -130,13 +139,14 @@ if (beginFlightBtn) {
             return;
         }
         
-        // Optional: Save card before flight
-        const shouldSave = !getCardByID(cardData.cardID);
+        // Optional: Save card before flight if not already saved
+        const existingCard = getCardByID(cardData.cardID);
         
-        if (shouldSave) {
+        if (!existingCard) {
             const confirmSave = confirm('Would you like to save this travel card before your flight?');
             if (confirmSave) {
                 saveCard(cardData);
+                showNotification('Card saved!', 'success');
             }
         }
         
@@ -190,7 +200,9 @@ if (travelCard) {
 // ========== PREVENT BACK NAVIGATION LOSS ==========
 window.addEventListener('beforeunload', function(e) {
     const cardData = getCurrentCard();
-    const isSaved = cardData ? getCardByID(cardData.cardID) : false;
+    if (!cardData) return;
+    
+    const isSaved = getCardByID(cardData.cardID);
     
     if (cardData && !isSaved) {
         // Warn user they haven't saved
@@ -205,18 +217,18 @@ document.addEventListener('keydown', function(e) {
     // S key to save
     if (e.key === 's' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
-        saveCardBtn.click();
+        if (saveCardBtn) saveCardBtn.click();
     }
     
     // Enter key to begin flight
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
-        beginFlightBtn.click();
+        if (beginFlightBtn) beginFlightBtn.click();
     }
     
     // Escape key to edit
     if (e.key === 'Escape') {
-        editCardBtn.click();
+        if (editCardBtn) editCardBtn.click();
     }
 });
 

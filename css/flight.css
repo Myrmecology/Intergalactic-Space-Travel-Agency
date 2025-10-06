@@ -88,33 +88,35 @@
     font-family: 'Courier New', monospace;
 }
 
-/* ========== HUD CENTER - PROGRESS ========== */
+/* ========== HUD CENTER - PROGRESS (MOVED TO RIGHT SIDE) ========== */
 .hud-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    width: 300px;
     pointer-events: none;
+    z-index: 15;
 }
 
 .progress-container {
     width: 100%;
-    max-width: 600px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     border: 2px solid var(--accent-blue);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
     backdrop-filter: blur(10px);
     box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
 }
 
 .progress-bar {
     width: 100%;
-    height: 30px;
+    height: 20px;
     background: rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
+    border-radius: 10px;
     overflow: hidden;
     position: relative;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     border: 1px solid var(--accent-blue);
 }
 
@@ -157,14 +159,14 @@
 }
 
 #progressPercent {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--accent-blue);
     font-family: 'Courier New', monospace;
 }
 
 #timeRemaining {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--text-secondary);
     font-family: 'Courier New', monospace;
 }
@@ -348,6 +350,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: opacity 0.5s ease;
 }
 
 .loading-content {
@@ -398,16 +401,25 @@
         font-size: 1rem;
     }
 
+    .hud-center {
+        width: 250px;
+        right: 10px;
+    }
+
     .progress-container {
-        padding: var(--spacing-md);
+        padding: var(--spacing-sm);
+    }
+
+    .progress-bar {
+        height: 16px;
     }
 
     #progressPercent {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     #timeRemaining {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .hud-bottom {
@@ -421,6 +433,8 @@
 
     .control-btn {
         flex: 1;
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.9rem;
     }
 
     .arrival-title {
@@ -445,12 +459,22 @@
 }
 
 @media (max-width: 480px) {
+    .hud-center {
+        width: 200px;
+        right: 5px;
+    }
+
     .arrival-title {
         font-size: 2rem;
     }
 
     .arrival-stats {
         grid-template-columns: 1fr;
+    }
+
+    .control-btn {
+        font-size: 0.8rem;
+        padding: 0.6rem 1rem;
     }
 }
 
