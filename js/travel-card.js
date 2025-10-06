@@ -13,24 +13,41 @@ if (travelCardForm) {
     travelCardForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
+        console.log('===== FORM SUBMITTED =====');
+        
         // Collect form data
         const formData = collectFormData();
+        
+        // Log form data for debugging
+        console.log('Collected Form Data:', JSON.stringify(formData, null, 2));
         
         // Validate form
         const validation = validateTravelCardForm(formData);
         if (!validation.valid) {
+            console.log('Validation failed:', validation.message);
             showNotification(validation.message, 'error');
             return;
         }
         
+        console.log('Validation passed!');
+        
         // Save to sessionStorage for review
-        if (setCurrentCard(formData)) {
+        try {
+            sessionStorage.setItem('current_travel_card', JSON.stringify(formData));
+            console.log('Data saved to sessionStorage');
+            
+            // Verify it was saved
+            const saved = sessionStorage.getItem('current_travel_card');
+            console.log('Verified saved data:', saved);
+            
             showNotification('Travel card created successfully!', 'success');
+            
             // Redirect to review page
             setTimeout(() => {
                 window.location.href = 'review-card.html';
             }, 500);
-        } else {
+        } catch (error) {
+            console.error('Error saving to sessionStorage:', error);
             showNotification('Error creating travel card. Please try again.', 'error');
         }
     });
@@ -38,52 +55,101 @@ if (travelCardForm) {
 
 // ========== COLLECT FORM DATA ==========
 function collectFormData() {
-    // Get all form values
-    const formData = {
-        // Personal Information
-        travelerName: document.getElementById('travelerName').value.trim(),
-        travelerID: document.getElementById('travelerID').value.trim() || 'N/A',
-        
-        // Spacecraft
-        spacecraft: document.getElementById('spacecraft').value,
-        
-        // Destination
-        destinationType: document.getElementById('destinationType').value,
-        destination: document.getElementById('destination').value,
-        
-        // Flight Preferences
-        departureDate: document.getElementById('departureDate').value,
-        departureTime: document.getElementById('departureTime').value,
-        
-        // Seating
-        seatClass: document.getElementById('seatClass').value,
-        seatPreference: document.getElementById('seatPreference').value,
-        extraLegroom: document.getElementById('extraLegroom').checked,
-        
-        // Meals
-        mealPreference: document.getElementById('mealPreference').value,
-        beveragePreference: document.getElementById('beveragePreference').value,
-        
-        // Baggage
-        carryOn: parseInt(document.getElementById('carryOn').value) || 0,
-        checkedBags: parseInt(document.getElementById('checkedBags').value) || 0,
-        
-        // Special Accommodations
-        wheelchair: document.getElementById('wheelchair').checked,
-        oxygenSupport: document.getElementById('oxygenSupport').checked,
-        gravityAssist: document.getElementById('gravityAssist').checked,
-        
-        // Entertainment
-        entertainment: document.getElementById('entertainment').value,
-        
-        // Notes
-        notes: document.getElementById('notes').value.trim() || 'None',
-        
-        // Metadata
-        cardID: generateCardID(),
-        timestamp: Date.now()
-    };
+    console.log('Collecting form data...');
     
+    const formData = {};
+    
+    // Personal Information
+    const travelerName = document.getElementById('travelerName');
+    formData.travelerName = travelerName ? travelerName.value.trim() : '';
+    console.log('Traveler Name:', formData.travelerName);
+    
+    const travelerID = document.getElementById('travelerID');
+    formData.travelerID = travelerID ? (travelerID.value.trim() || 'N/A') : 'N/A';
+    console.log('Traveler ID:', formData.travelerID);
+    
+    // Spacecraft
+    const spacecraft = document.getElementById('spacecraft');
+    formData.spacecraft = spacecraft ? spacecraft.value : '';
+    console.log('Spacecraft:', formData.spacecraft);
+    
+    // Destination
+    const destinationType = document.getElementById('destinationType');
+    formData.destinationType = destinationType ? destinationType.value : '';
+    console.log('Destination Type:', formData.destinationType);
+    
+    const destination = document.getElementById('destination');
+    formData.destination = destination ? destination.value : '';
+    console.log('Destination:', formData.destination);
+    
+    // Flight Preferences
+    const departureDate = document.getElementById('departureDate');
+    formData.departureDate = departureDate ? departureDate.value : '';
+    console.log('Departure Date:', formData.departureDate);
+    
+    const departureTime = document.getElementById('departureTime');
+    formData.departureTime = departureTime ? departureTime.value : '';
+    console.log('Departure Time:', formData.departureTime);
+    
+    // Seating
+    const seatClass = document.getElementById('seatClass');
+    formData.seatClass = seatClass ? seatClass.value : '';
+    console.log('Seat Class:', formData.seatClass);
+    
+    const seatPreference = document.getElementById('seatPreference');
+    formData.seatPreference = seatPreference ? seatPreference.value : 'Window - View of Space';
+    console.log('Seat Preference:', formData.seatPreference);
+    
+    const extraLegroom = document.getElementById('extraLegroom');
+    formData.extraLegroom = extraLegroom ? extraLegroom.checked : false;
+    console.log('Extra Legroom:', formData.extraLegroom);
+    
+    // Meals
+    const mealPreference = document.getElementById('mealPreference');
+    formData.mealPreference = mealPreference ? mealPreference.value : '';
+    console.log('Meal Preference:', formData.mealPreference);
+    
+    const beveragePreference = document.getElementById('beveragePreference');
+    formData.beveragePreference = beveragePreference ? beveragePreference.value : 'Space Water - Purified H2O';
+    console.log('Beverage Preference:', formData.beveragePreference);
+    
+    // Baggage
+    const carryOn = document.getElementById('carryOn');
+    formData.carryOn = carryOn ? parseInt(carryOn.value) || 1 : 1;
+    console.log('Carry On:', formData.carryOn);
+    
+    const checkedBags = document.getElementById('checkedBags');
+    formData.checkedBags = checkedBags ? parseInt(checkedBags.value) || 0 : 0;
+    console.log('Checked Bags:', formData.checkedBags);
+    
+    // Special Accommodations
+    const wheelchair = document.getElementById('wheelchair');
+    formData.wheelchair = wheelchair ? wheelchair.checked : false;
+    console.log('Wheelchair:', formData.wheelchair);
+    
+    const oxygenSupport = document.getElementById('oxygenSupport');
+    formData.oxygenSupport = oxygenSupport ? oxygenSupport.checked : false;
+    console.log('Oxygen Support:', formData.oxygenSupport);
+    
+    const gravityAssist = document.getElementById('gravityAssist');
+    formData.gravityAssist = gravityAssist ? gravityAssist.checked : false;
+    console.log('Gravity Assist:', formData.gravityAssist);
+    
+    // Entertainment
+    const entertainment = document.getElementById('entertainment');
+    formData.entertainment = entertainment ? entertainment.value : 'Ultimate Cosmic - VR, Movies, Games, Music';
+    console.log('Entertainment:', formData.entertainment);
+    
+    // Notes
+    const notes = document.getElementById('notes');
+    formData.notes = notes ? (notes.value.trim() || 'None') : 'None';
+    console.log('Notes:', formData.notes);
+    
+    // Metadata
+    formData.cardID = generateCardID();
+    formData.timestamp = Date.now();
+    
+    console.log('Final form data object:', formData);
     return formData;
 }
 
@@ -153,7 +219,7 @@ if (destinationType && destination) {
     });
 }
 
-// ========== AUTO-SAVE FUNCTIONALITY (OPTIONAL) ==========
+// ========== AUTO-SAVE FUNCTIONALITY ==========
 let autoSaveTimeout;
 
 function autoSaveForm() {
@@ -167,7 +233,7 @@ function autoSaveForm() {
             sessionStorage.setItem('autosave_travel_card', JSON.stringify(formData));
             console.log('Form auto-saved');
         }
-    }, 2000); // Auto-save after 2 seconds of inactivity
+    }, 2000);
 }
 
 // Add auto-save listeners to all form inputs
@@ -211,58 +277,98 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // ========== RESTORE FORM DATA ==========
 function restoreFormData(data) {
-    // Personal Information
-    if (data.travelerName) document.getElementById('travelerName').value = data.travelerName;
-    if (data.travelerID && data.travelerID !== 'N/A') document.getElementById('travelerID').value = data.travelerID;
-    
-    // Spacecraft
-    if (data.spacecraft) document.getElementById('spacecraft').value = data.spacecraft;
-    
-    // Destination
-    if (data.destinationType) {
-        document.getElementById('destinationType').value = data.destinationType;
-        // Trigger change event to populate destinations
-        destinationType.dispatchEvent(new Event('change'));
-        setTimeout(() => {
-            if (data.destination) document.getElementById('destination').value = data.destination;
-        }, 100);
+    if (data.travelerName) {
+        const el = document.getElementById('travelerName');
+        if (el) el.value = data.travelerName;
     }
-    
-    // Flight Preferences
-    if (data.departureDate) document.getElementById('departureDate').value = data.departureDate;
-    if (data.departureTime) document.getElementById('departureTime').value = data.departureTime;
-    
-    // Seating
-    if (data.seatClass) document.getElementById('seatClass').value = data.seatClass;
-    if (data.seatPreference) document.getElementById('seatPreference').value = data.seatPreference;
-    if (data.extraLegroom) document.getElementById('extraLegroom').checked = data.extraLegroom;
-    
-    // Meals
-    if (data.mealPreference) document.getElementById('mealPreference').value = data.mealPreference;
-    if (data.beveragePreference) document.getElementById('beveragePreference').value = data.beveragePreference;
-    
-    // Baggage
-    if (data.carryOn !== undefined) document.getElementById('carryOn').value = data.carryOn;
-    if (data.checkedBags !== undefined) document.getElementById('checkedBags').value = data.checkedBags;
-    
-    // Special Accommodations
-    if (data.wheelchair) document.getElementById('wheelchair').checked = data.wheelchair;
-    if (data.oxygenSupport) document.getElementById('oxygenSupport').checked = data.oxygenSupport;
-    if (data.gravityAssist) document.getElementById('gravityAssist').checked = data.gravityAssist;
-    
-    // Entertainment
-    if (data.entertainment) document.getElementById('entertainment').value = data.entertainment;
-    
-    // Notes
-    if (data.notes && data.notes !== 'None') document.getElementById('notes').value = data.notes;
+    if (data.travelerID && data.travelerID !== 'N/A') {
+        const el = document.getElementById('travelerID');
+        if (el) el.value = data.travelerID;
+    }
+    if (data.spacecraft) {
+        const el = document.getElementById('spacecraft');
+        if (el) el.value = data.spacecraft;
+    }
+    if (data.destinationType) {
+        const el = document.getElementById('destinationType');
+        if (el) {
+            el.value = data.destinationType;
+            el.dispatchEvent(new Event('change'));
+            setTimeout(() => {
+                if (data.destination) {
+                    const destEl = document.getElementById('destination');
+                    if (destEl) destEl.value = data.destination;
+                }
+            }, 100);
+        }
+    }
+    if (data.departureDate) {
+        const el = document.getElementById('departureDate');
+        if (el) el.value = data.departureDate;
+    }
+    if (data.departureTime) {
+        const el = document.getElementById('departureTime');
+        if (el) el.value = data.departureTime;
+    }
+    if (data.seatClass) {
+        const el = document.getElementById('seatClass');
+        if (el) el.value = data.seatClass;
+    }
+    if (data.seatPreference) {
+        const el = document.getElementById('seatPreference');
+        if (el) el.value = data.seatPreference;
+    }
+    if (data.extraLegroom) {
+        const el = document.getElementById('extraLegroom');
+        if (el) el.checked = data.extraLegroom;
+    }
+    if (data.mealPreference) {
+        const el = document.getElementById('mealPreference');
+        if (el) el.value = data.mealPreference;
+    }
+    if (data.beveragePreference) {
+        const el = document.getElementById('beveragePreference');
+        if (el) el.value = data.beveragePreference;
+    }
+    if (data.carryOn !== undefined) {
+        const el = document.getElementById('carryOn');
+        if (el) el.value = data.carryOn;
+    }
+    if (data.checkedBags !== undefined) {
+        const el = document.getElementById('checkedBags');
+        if (el) el.value = data.checkedBags;
+    }
+    if (data.wheelchair) {
+        const el = document.getElementById('wheelchair');
+        if (el) el.checked = data.wheelchair;
+    }
+    if (data.oxygenSupport) {
+        const el = document.getElementById('oxygenSupport');
+        if (el) el.checked = data.oxygenSupport;
+    }
+    if (data.gravityAssist) {
+        const el = document.getElementById('gravityAssist');
+        if (el) el.checked = data.gravityAssist;
+    }
+    if (data.entertainment) {
+        const el = document.getElementById('entertainment');
+        if (el) el.value = data.entertainment;
+    }
+    if (data.notes && data.notes !== 'None') {
+        const el = document.getElementById('notes');
+        if (el) el.value = data.notes;
+    }
 }
 
 // ========== FORM RESET HANDLER ==========
 if (travelCardForm) {
     travelCardForm.addEventListener('reset', function() {
         sessionStorage.removeItem('autosave_travel_card');
-        destination.disabled = true;
-        destination.innerHTML = '<option value="">First select a destination type...</option>';
+        const destEl = document.getElementById('destination');
+        if (destEl) {
+            destEl.disabled = true;
+            destEl.innerHTML = '<option value="">First select a destination type...</option>';
+        }
         showNotification('Form reset successfully', 'info');
     });
 }

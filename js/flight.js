@@ -311,31 +311,34 @@ function animate() {
     const elapsed = (Date.now() - startTime) / 1000;
     flightProgress = Math.min(elapsed / flightDuration, 1);
     
+    // Calculate accelerating speed multiplier (increases exponentially over time)
+    const speedMultiplier = 1 + (flightProgress * flightProgress * 10);
+    
     // Update progress bar
     updateProgressBar(flightProgress);
     
-    // Update speed
+    // Update speed display
     currentSpeed = (0.1 + flightProgress * 0.8).toFixed(1);
     document.getElementById('hudSpeed').textContent = `${currentSpeed}c`;
     
     // Rotate spacecraft
     if (spacecraft) {
-        spacecraft.rotation.y += 0.01;
+        spacecraft.rotation.y += 0.01 * speedMultiplier;
         spacecraft.rotation.z = Math.sin(elapsed * 0.5) * 0.1;
     }
     
-    // Rotate planet
+    // Rotate planet and move it closer
     if (planet) {
-        planet.rotation.y += 0.002;
+        planet.rotation.y += 0.002 * speedMultiplier;
         planet.position.z = -500 + (flightProgress * 520);
         planet.scale.set(1 + flightProgress * 3, 1 + flightProgress * 3, 1 + flightProgress * 3);
     }
     
-    // Animate particles (warp effect)
+    // Animate particles (warp effect) - speed increases dramatically
     if (particles) {
         const positions = particles.geometry.attributes.position.array;
         for (let i = 0; i < positions.length; i += 3) {
-            positions[i + 2] += 2 + flightProgress * 5;
+            positions[i + 2] += (2 + flightProgress * 8) * speedMultiplier;
             if (positions[i + 2] > 50) {
                 positions[i + 2] = -200;
             }
@@ -343,25 +346,26 @@ function animate() {
         particles.geometry.attributes.position.needsUpdate = true;
     }
     
-    // Animate lasers
+    // Animate lasers - faster over time
     laserLines.forEach((line, i) => {
-        line.rotation.z += 0.01;
-        line.position.z += 1 + Math.sin(elapsed + i) * 0.5;
+        line.rotation.z += 0.01 * speedMultiplier;
+        line.position.z += (1 + Math.sin(elapsed + i) * 0.5) * speedMultiplier;
         if (line.position.z > 50) {
             line.position.z = -100;
         }
     });
     
-    // Strobe effect
-    if (strobeLight && Math.random() > 0.95) {
+    // Strobe effect - more frequent at higher speeds
+    if (strobeLight && Math.random() > (0.95 - flightProgress * 0.1)) {
         strobeLight.intensity = Math.random() * 5;
         setTimeout(() => { if (strobeLight) strobeLight.intensity = 0; }, 50);
     }
     
-    // Camera shake at high speed
-    if (flightProgress > 0.7) {
-        camera.position.x = (Math.random() - 0.5) * 0.5;
-        camera.position.y = (Math.random() - 0.5) * 0.5;
+    // Camera shake intensifies at high speed
+    if (flightProgress > 0.5) {
+        const shakeIntensity = (flightProgress - 0.5) * 2;
+        camera.position.x = (Math.random() - 0.5) * shakeIntensity;
+        camera.position.y = (Math.random() - 0.5) * shakeIntensity;
     }
     
     // Update flight status
@@ -389,7 +393,10 @@ function updateProgressBar(progress) {
 
 // ========== UPDATE FLIGHT STATUS ==========
 function updateFlightStatus(status) {
-    document.getElementById('flightStatus').textContent = status;
+    const statusElement = document.getElementById('flightStatus');
+    if (statusElement) {
+        statusElement.textContent = status;
+    }
 }
 
 function updateFlightStatusByProgress(progress) {
@@ -401,47 +408,69 @@ function updateFlightStatusByProgress(progress) {
 }
 
 // ========== SPEED UP BUTTON ==========
-document.getElementById('speedUpBtn').addEventListener('click', function() {
-    if (isFlightComplete) return;
-    
-    flightProgress = 1;
-    updateProgressBar(1);
-    completeFlightSequence();
-});
+const speedUpBtn = document.getElementById('speedUpBtn');
+if (speedUpBtn) {
+    speedUpBtn.addEventListener('click', function() {
+        if (isFlightComplete) return;
+        
+        // Mark as complete and trigger arrival
+        isFlightComplete = true;
+        flightProgress = 1;
+        updateProgressBar(1);
+        updateFlightStatus('ARRIVAL SEQUENCE INITIATED');
+        
+        // Stop animation loop
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+        }
+        
+        // Complete the flight immediately
+        completeFlightSequence();
+    });
+}
 
 // ========== AUDIO TOGGLE ==========
-document.getElementById('toggleAudioBtn').addEventListener('click', function() {
-    audioEnabled = !audioEnabled;
-    const icon = document.getElementById('audioIcon');
-    
-    if (audioEnabled) {
-        icon.textContent = '🔊';
-        if (audioContext) {
-            audioContext.resume();
-            oscillators.forEach(osc => {
-                if (osc.gain) {
-                    osc.gain.gain.setValueAtTime(0.1, audioContext.currentTime);
-                }
-            });
+const toggleAudioBtn = document.getElementById('toggleAudioBtn');
+if (toggleAudioBtn) {
+    toggleAudioBtn.addEventListener('click', function() {
+        audioEnabled = !audioEnabled;
+        const icon = document.getElementById('audioIcon');
+        
+        if (audioEnabled) {
+            icon.textContent = '🔊';
+            if (audioContext) {
+                audioContext.resume();
+                oscillators.forEach(osc => {
+                    if (osc.gain) {
+                        osc.gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    }
+                });
+            }
+        } else {
+            icon.textContent = '🔇';
+            if (audioContext) {
+                oscillators.forEach(osc => {
+                    if (osc.gain) {
+                        osc.gain.gain.setValueAtTime(0, audioContext.currentTime);
+                    }
+                });
+            }
         }
-    } else {
-        icon.textContent = '🔇';
-        if (audioContext) {
-            oscillators.forEach(osc => {
-                if (osc.gain) {
-                    osc.gain.gain.setValueAtTime(0, audioContext.currentTime);
-                }
-            });
-        }
-    }
-});
+    });
+}
 
 // ========== COMPLETE FLIGHT ==========
 function completeFlightSequence() {
-    if (isFlightComplete) return;
+    if (isFlightComplete && document.getElementById('arrivalScreen').style.display === 'flex') {
+        return; // Already showing arrival screen
+    }
+    
     isFlightComplete = true;
     
-    cancelAnimationFrame(animationId);
+    // Stop animation loop
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+    }
     
     // Stop audio
     oscillators.forEach(osc => {
@@ -465,11 +494,23 @@ function completeFlightSequence() {
     document.getElementById('flightTime').textContent = flightTime;
     document.getElementById('maxSpeed').textContent = maxSpeed;
     
-    // Show arrival screen
-    document.getElementById('arrivalScreen').style.display = 'flex';
+    // Update final status
+    updateFlightStatus('ARRIVAL COMPLETE');
+    
+    // Show arrival screen with fade in
+    const arrivalScreen = document.getElementById('arrivalScreen');
+    arrivalScreen.style.display = 'flex';
+    arrivalScreen.style.opacity = '0';
+    
+    setTimeout(() => {
+        arrivalScreen.style.opacity = '1';
+    }, 50);
     
     // Clear current card from session
     clearCurrentCard();
+    
+    // Show success notification
+    showNotification(`Welcome to ${cardData.destination}!`, 'success');
 }
 
 // ========== FORMAT FLIGHT TIME ==========
@@ -489,10 +530,12 @@ function onWindowResize() {
 // ========== HIDE LOADING SCREEN ==========
 function hideLoadingScreen() {
     const loadingScreen = document.getElementById('loadingScreen');
-    loadingScreen.style.opacity = '0';
-    setTimeout(() => {
-        loadingScreen.style.display = 'none';
-    }, 500);
+    if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500);
+    }
 }
 
 // ========== CLEANUP ON PAGE UNLOAD ==========

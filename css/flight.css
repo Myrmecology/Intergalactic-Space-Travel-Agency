@@ -107,6 +107,7 @@
     padding: var(--spacing-md);
     backdrop-filter: blur(10px);
     box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+    pointer-events: auto;
 }
 
 .progress-bar {
@@ -252,18 +253,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: arrivalFadeIn 1s ease;
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-@keyframes arrivalFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.arrival-screen.show {
+    opacity: 1;
 }
 
 .arrival-content {
     text-align: center;
     max-width: 800px;
     padding: var(--spacing-xl);
+    animation: arrivalContentSlide 0.8s ease;
+}
+
+@keyframes arrivalContentSlide {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .arrival-title {
@@ -307,6 +320,22 @@
     border-radius: var(--border-radius-lg);
     padding: var(--spacing-lg);
     backdrop-filter: blur(10px);
+    animation: statItemFade 0.6s ease backwards;
+}
+
+.stat-item:nth-child(1) { animation-delay: 0.2s; }
+.stat-item:nth-child(2) { animation-delay: 0.3s; }
+.stat-item:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes statItemFade {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .stat-label {
@@ -332,6 +361,12 @@
     gap: var(--spacing-md);
     justify-content: center;
     flex-wrap: wrap;
+    animation: actionsFade 0.8s ease backwards 0.5s;
+}
+
+@keyframes actionsFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .arrival-actions .btn {

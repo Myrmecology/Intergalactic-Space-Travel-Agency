@@ -22,51 +22,74 @@ window.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
+    console.log('===== CARD DATA LOADED =====');
+    console.log('Full Card Data:', cardData);
+    console.log('===========================');
+    
     displayCardData(cardData);
 });
 
 // ========== DISPLAY CARD DATA ==========
 function displayCardData(cardData) {
     // Card Number
-    document.getElementById('cardNumber').textContent = cardData.cardID || 'CARD-XXXX-XXXX';
+    safeSetText('cardNumber', cardData.cardID || 'CARD-XXXX-XXXX');
     
     // Traveler Information
-    document.getElementById('displayName').textContent = cardData.travelerName || '-';
-    document.getElementById('displayTravelerID').textContent = cardData.travelerID || 'N/A';
+    safeSetText('displayName', cardData.travelerName || '-');
+    safeSetText('displayTravelerID', cardData.travelerID || 'N/A');
     
     // Flight Details
-    document.getElementById('displaySpacecraft').textContent = cardData.spacecraft || '-';
-    document.getElementById('displayDestination').textContent = cardData.destination || '-';
+    safeSetText('displaySpacecraft', cardData.spacecraft || '-');
+    safeSetText('displayDestination', cardData.destination || '-');
     
+    // Format and display departure
     const departure = formatDateTime(cardData.departureDate, cardData.departureTime);
-    document.getElementById('displayDeparture').textContent = departure;
+    safeSetText('displayDeparture', departure);
     
     // Seating
-    document.getElementById('displaySeatClass').textContent = cardData.seatClass || '-';
-    document.getElementById('displaySeatPreference').textContent = cardData.seatPreference || 'Window - View of Space';
-    document.getElementById('displayLegroom').textContent = cardData.extraLegroom ? 'Yes (+$299)' : 'No';
+    safeSetText('displaySeatClass', cardData.seatClass || '-');
+    safeSetText('displaySeatPreference', cardData.seatPreference || 'Window - View of Space');
+    safeSetText('displayLegroom', cardData.extraLegroom ? 'Yes (+$299)' : 'No');
     
     // Dining
-    document.getElementById('displayMeal').textContent = cardData.mealPreference || '-';
-    document.getElementById('displayBeverage').textContent = cardData.beveragePreference || 'Space Water - Purified H2O';
+    safeSetText('displayMeal', cardData.mealPreference || '-');
+    safeSetText('displayBeverage', cardData.beveragePreference || 'Space Water - Purified H2O');
     
     // Baggage
-    document.getElementById('displayCarryOn').textContent = `${cardData.carryOn || 1} bag(s)`;
-    document.getElementById('displayChecked').textContent = `${cardData.checkedBags || 0} bag(s)`;
+    safeSetText('displayCarryOn', `${cardData.carryOn !== undefined ? cardData.carryOn : 1} bag(s)`);
+    safeSetText('displayChecked', `${cardData.checkedBags !== undefined ? cardData.checkedBags : 0} bag(s)`);
     
     // Special Accommodations
     displayAccommodations(cardData);
     
     // Entertainment
-    document.getElementById('displayEntertainment').textContent = cardData.entertainment || 'Ultimate Cosmic - VR, Movies, Games, Music';
+    safeSetText('displayEntertainment', cardData.entertainment || 'Ultimate Cosmic - VR, Movies, Games, Music');
     
     // Notes
     displayNotes(cardData.notes);
+    
+    console.log('All data displayed successfully');
+}
+
+// ========== SAFE SET TEXT HELPER ==========
+function safeSetText(elementId, text) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.textContent = text;
+        console.log(`Set ${elementId}:`, text);
+    } else {
+        console.warn(`Element not found: ${elementId}`);
+    }
 }
 
 // ========== DISPLAY SPECIAL ACCOMMODATIONS ==========
 function displayAccommodations(cardData) {
     const accommodationsDiv = document.getElementById('displayAccommodations');
+    if (!accommodationsDiv) {
+        console.warn('Accommodations div not found');
+        return;
+    }
+    
     const accommodations = [];
     
     if (cardData.wheelchair) accommodations.push('Wheelchair Assistance');
@@ -85,6 +108,10 @@ function displayAccommodations(cardData) {
 // ========== DISPLAY NOTES ==========
 function displayNotes(notes) {
     const notesDiv = document.getElementById('displayNotes');
+    if (!notesDiv) {
+        console.warn('Notes div not found');
+        return;
+    }
     
     if (notes && notes !== 'None' && notes.trim() !== '') {
         notesDiv.innerHTML = `<p>${notes}</p>`;
@@ -122,6 +149,7 @@ if (saveCardBtn) {
             
             setTimeout(() => {
                 saveCardBtn.innerHTML = '<span>Save Travel Card</span><div class="btn-shine"></div>';
+                saveCardBtn.style.background = '';
             }, 2000);
         } else {
             showNotification('Error saving travel card', 'error');
