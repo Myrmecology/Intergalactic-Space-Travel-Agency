@@ -407,13 +407,23 @@ function updateFlightStatusByProgress(progress) {
     else if (progress < 1) updateFlightStatus('INITIATING DECELERATION');
 }
 
-// ========== SPEED UP BUTTON ==========
+// ========== SKIP TO ARRIVAL BUTTON - FIXED ==========
 const speedUpBtn = document.getElementById('speedUpBtn');
 if (speedUpBtn) {
     speedUpBtn.addEventListener('click', function() {
-        if (isFlightComplete) return;
+        console.log('Skip to Arrival clicked');
         
-        // Mark as complete and trigger arrival
+        if (isFlightComplete) {
+            console.log('Flight already complete, ignoring click');
+            return;
+        }
+        
+        // Prevent multiple clicks
+        speedUpBtn.disabled = true;
+        speedUpBtn.style.opacity = '0.5';
+        speedUpBtn.style.cursor = 'not-allowed';
+        
+        // Set as complete immediately
         isFlightComplete = true;
         flightProgress = 1;
         updateProgressBar(1);
@@ -422,10 +432,16 @@ if (speedUpBtn) {
         // Stop animation loop
         if (animationId) {
             cancelAnimationFrame(animationId);
+            animationId = null;
         }
         
-        // Complete the flight immediately
-        completeFlightSequence();
+        // Show notification
+        showNotification('Arriving at destination...', 'info');
+        
+        // Complete the flight after brief delay
+        setTimeout(() => {
+            completeFlightSequence();
+        }, 500);
     });
 }
 
@@ -459,10 +475,14 @@ if (toggleAudioBtn) {
     });
 }
 
-// ========== COMPLETE FLIGHT ==========
+// ========== COMPLETE FLIGHT - FIXED ==========
 function completeFlightSequence() {
+    console.log('Completing flight sequence...');
+    
+    // Prevent multiple calls
     if (isFlightComplete && document.getElementById('arrivalScreen').style.display === 'flex') {
-        return; // Already showing arrival screen
+        console.log('Arrival screen already showing');
+        return;
     }
     
     isFlightComplete = true;
@@ -470,6 +490,7 @@ function completeFlightSequence() {
     // Stop animation loop
     if (animationId) {
         cancelAnimationFrame(animationId);
+        animationId = null;
     }
     
     // Stop audio
@@ -497,20 +518,18 @@ function completeFlightSequence() {
     // Update final status
     updateFlightStatus('ARRIVAL COMPLETE');
     
-    // Show arrival screen with fade in
+    // Show arrival screen
     const arrivalScreen = document.getElementById('arrivalScreen');
     arrivalScreen.style.display = 'flex';
-    arrivalScreen.style.opacity = '0';
-    
-    setTimeout(() => {
-        arrivalScreen.style.opacity = '1';
-    }, 50);
+    arrivalScreen.classList.add('show');
     
     // Clear current card from session
     clearCurrentCard();
     
     // Show success notification
-    showNotification(`Welcome to ${cardData.destination}!`, 'success');
+    showNotification(`🎉 Welcome to ${cardData.destination}!`, 'success');
+    
+    console.log('Arrival screen displayed');
 }
 
 // ========== FORMAT FLIGHT TIME ==========
