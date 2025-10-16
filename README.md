@@ -2,6 +2,8 @@
 
 A premium, immersive web experience for booking interstellar travel adventures. Built with cutting-edge web technologies to deliver a visually stunning space travel booking platform.
 
+Video demo of this project link: https://www.youtube.com/watch?v=ji8QDSyrHww
+
 ## ✨ Features
 
 ### Travel Card System
